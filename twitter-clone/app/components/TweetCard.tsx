@@ -1,6 +1,6 @@
 // components/TweetCard.tsx
 // 📌 Displays a single tweet with likes, hashtags, and user info
-import type { Tweet } from "@/types/tweet";
+import type { Tweet } from "@/app/types/tweet";
 
 interface TweetCardProps {
   tweet: Tweet;

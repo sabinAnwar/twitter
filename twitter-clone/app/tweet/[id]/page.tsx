@@ -1,6 +1,6 @@
 // app/tweet/[id]/page.tsx
 // 📌 Fetches and displays details for a single tweet
-import type { Tweet } from "@/types/tweet";
+import type { Tweet } from "@/app/types/tweet";
 
 async function getTweet(id: string): Promise<Tweet> {
   const res = await fetch(`https://dummyjson.com/posts/${id}`);
