@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import TweetCard from "@/app/components/TweetCard";
-import { readTweets } from "@/app/lib/tweets";
+import { readTweet } from "@/lib/tweets";
 
 interface TweetDetailProps {
   params: Promise<{ id: string }>;
@@ -10,8 +10,7 @@ interface TweetDetailProps {
 
 async function TweetContent({ params }: TweetDetailProps) {
   const { id } = await params;
-  const tweets = await readTweets();
-  const tweet = tweets.find((t) => t.id === id);
+  const tweet = await readTweet(id);
 
   if (!tweet) {
     notFound();
