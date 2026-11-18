@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import TweetCard from "@/app/components/TweetCard";
 import { readTweets } from "@/app/lib/tweets";
@@ -25,9 +26,9 @@ export default function TweetDetail({ params }: TweetDetailProps) {
       <Suspense fallback={<p>Loading tweet...</p>}>
         <TweetContent params={params} />
       </Suspense>
-      <a href="/" style={{ color: "blue", textDecoration: "underline" }}>
+      <Link href="/" style={{ color: "blue", textDecoration: "underline" }}>
         ← Back to Feed
-      </a>
+      </Link>
     </main>
   );
 }
