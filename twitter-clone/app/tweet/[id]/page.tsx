@@ -1,17 +1,7 @@
-// app/tweet/[id]/page.tsx
-// 📌 Fetches and displays details for a single tweet
 import { Suspense } from "react";
-import type { Tweet } from "@/app/types/tweet";
-
-async function getTweet(id: string): Promise<Tweet> {
-  const res = await fetch(`https://dummyjson.com/posts/${id}`);
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch tweet ${id}: ${res.status} ${res.statusText}`,
-    );
-  }
-  return res.json();
-}
+import { notFound } from "next/navigation";
+import TweetCard from "@/app/components/TweetCard";
+import { readTweets } from "@/app/lib/tweets";
 
 interface TweetDetailProps {
   params: Promise<{ id: string }>;
@@ -19,18 +9,14 @@ interface TweetDetailProps {
 
 async function TweetContent({ params }: TweetDetailProps) {
   const { id } = await params;
-  const tweet = await getTweet(id);
+  const tweets = await readTweets();
+  const tweet = tweets.find((t) => t.id === id);
 
-  return (
-    <>
-      <h1>{tweet.title}</h1>
-      <p>{tweet.body}</p>
-      <p>
-        👍 {tweet.reactions.likes} | 👎 {tweet.reactions.dislikes}
-      </p>
-      <p>Tags: {tweet.tags.join(", ")}</p>
-    </>
-  );
+  if (!tweet) {
+    notFound();
+  }
+
+  return <TweetCard tweet={tweet} />;
 }
 
 export default function TweetDetail({ params }: TweetDetailProps) {

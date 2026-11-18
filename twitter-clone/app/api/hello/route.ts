@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 type HelloBody = { text: string };
 
 export async function GET(request: NextRequest) {
+  console.log("Request to", request.url);
   try {
     const data: string = await fs.readFile("note.txt", { encoding: "utf8" });
     return NextResponse.json({ note: data });
