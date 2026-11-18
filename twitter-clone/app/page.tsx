@@ -1,7 +1,6 @@
 // app/page.tsx
 "use client";
 import { SubmitEvent, useEffect, useState } from "react";
-import Link from "next/link";
 import type { Tweet } from "@/app/types/tweet";
 
 export default function Home() {
@@ -39,7 +38,6 @@ export default function Home() {
     setContent("");
   }
 
-  // Up- or downvote a tweet, then swap in the updated tweet from the server
   async function handleVote(id: string, type: "up" | "down") {
     const res = await fetch(`/api/tweets/${id}`, {
       method: "PATCH",
@@ -50,9 +48,8 @@ export default function Home() {
     if (!res.ok) return;
 
     const updatedTweet: Tweet = await res.json();
-    setTweets((current) =>
-      current.map((t) => (t._id === updatedTweet._id ? updatedTweet : t)),
-    );
+    // replace the old version of this tweet with the updated one
+    setTweets(tweets.map((t) => (t._id === updatedTweet._id ? updatedTweet : t)));
   }
 
   return (
@@ -71,7 +68,7 @@ export default function Home() {
       <ul>
         {tweets.map((tweet) => (
           <li key={tweet._id}>
-            <Link href={`/tweet/${tweet._id}`}>{tweet.content}</Link>
+            {tweet.content}
             <button onClick={() => handleVote(tweet._id, "up")}>
               👍 {tweet.upvotes}
             </button>

@@ -25,7 +25,7 @@ export async function PATCH(request: Request, { params }: RouteContext) {
     const tweet = await Tweet.findByIdAndUpdate(
       id,
       { $inc: { [field]: 1 } },
-      { returnDocument: "after" },
+      { new: true },
     );
 
     if (!tweet) {
@@ -33,7 +33,7 @@ export async function PATCH(request: Request, { params }: RouteContext) {
     }
 
     return Response.json(tweet);
-  } catch {
+  } catch (error) {
     return Response.json({ error: "Invalid tweet id" }, { status: 400 });
   }
 }

@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import TweetCard from "@/app/components/TweetCard";
 import { readTweet } from "@/lib/tweets";
 
@@ -9,6 +10,7 @@ interface TweetDetailProps {
 }
 
 async function TweetContent({ params }: TweetDetailProps) {
+  await connection();
   const { id } = await params;
   const tweet = await readTweet(id);
 
